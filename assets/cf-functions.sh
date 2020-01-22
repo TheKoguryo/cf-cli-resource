@@ -764,10 +764,14 @@ function cf_add_network_policy() {
   local destination_app=${2:?destination_app null or not set}
   local protocol=$3
   local port=$4
+  local destination_space_name=$5
+  local destination_org_name=$6
 
   local args=("$source_app" --destination-app "$destination_app")
   [ -n "$protocol" ] && args+=(--protocol "$protocol")
   [ -n "$port" ] && args+=(--port "$port")
+  [ -n "$destination_space_name" ] && args+=(-s "$destination_space_name")
+  [ -n "$destination_org_name" ] && args+=(-o "$destination_org_name")
 
   cf add-network-policy "${args[@]}"
 }

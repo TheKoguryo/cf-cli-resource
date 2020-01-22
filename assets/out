@@ -443,9 +443,11 @@ echo "$params" | jq -c '.commands[]' | while read -r options; do
     destination_app=$(echo $options | jq -r '.destination_app //empty')
     protocol=$(echo $options | jq -r '.protocol //empty')
     port=$(echo $options | jq -r '.port //empty')
+    destination_space_name=$(echo $options | jq -r '.destination_space_name //empty')
+    destination_org_name=$(echo $options | jq -r '.destination_org_name //empty')
     logger::info "Executing $(logger::highlight "$command"): $source_app"
     cf_target "$org" "$space"
-    cf_add_network_policy "$source_app" "$destination_app" "$protocol" "$port"
+    cf_add_network_policy "$source_app" "$destination_app" "$protocol" "$port" "$destination_space_name" "$destination_org_name"
   elif [ "remove-network-policy" = "$command" ]; then
     source_app=$(echo $options | jq -r '.source_app //empty')
     destination_app=$(echo $options | jq -r '.destination_app //empty')
